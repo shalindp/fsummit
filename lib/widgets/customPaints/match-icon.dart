@@ -1,33 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:fsummit/widgets/customPaints/base-icon.dart';
 
-class MatchIcon extends CustomPainter {
-@override
-void paint(Canvas canvas, Size size) {
+class MatchIcon extends AppIcon {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path_0 = Path();
+    path_0.moveTo(size.width * 0.3053133, size.height * 0.8730958);
+    path_0.cubicTo(size.width * 0.1649096, size.height * 0.7649208, 0, size.height * 0.6378625, 0, size.height * 0.4176083);
+    path_0.cubicTo(0, size.height * 0.1744625, size.width * 0.2750079, size.height * 0.002027650, size.width * 0.5000000, size.height * 0.2357858);
+    path_0.lineTo(size.width * 0.6000000, size.height * 0.3357183);
+    path_0.cubicTo(
+      size.width * 0.6146458,
+      size.height * 0.3503604,
+      size.width * 0.6383917,
+      size.height * 0.3503558,
+      size.width * 0.6530333,
+      size.height * 0.3357083,
+    );
+    path_0.cubicTo(
+      size.width * 0.6676750,
+      size.height * 0.3210617,
+      size.width * 0.6676708,
+      size.height * 0.2973179,
+      size.width * 0.6530250,
+      size.height * 0.2826758,
+    );
+    path_0.lineTo(size.width * 0.5564250, size.height * 0.1861104);
+    path_0.cubicTo(size.width * 0.7684250, size.height * 0.03090896, size.width, size.height * 0.1944871, size.width, size.height * 0.4176083);
+    path_0.cubicTo(size.width, size.height * 0.6378625, size.width * 0.8350917, size.height * 0.7649208, size.width * 0.6946833, size.height * 0.8730958);
+    path_0.cubicTo(
+      size.width * 0.6800958,
+      size.height * 0.8843375,
+      size.width * 0.6657667,
+      size.height * 0.8953792,
+      size.width * 0.6519167,
+      size.height * 0.9063000,
+    );
+    path_0.cubicTo(
+      size.width * 0.6000000,
+      size.height * 0.9472250,
+      size.width * 0.5500000,
+      size.height * 0.9857542,
+      size.width * 0.5000000,
+      size.height * 0.9857542,
+    );
+    path_0.cubicTo(
+      size.width * 0.4500000,
+      size.height * 0.9857542,
+      size.width * 0.4000000,
+      size.height * 0.9472250,
+      size.width * 0.3480867,
+      size.height * 0.9063000,
+    );
+    path_0.cubicTo(
+      size.width * 0.3342354,
+      size.height * 0.8953792,
+      size.width * 0.3199071,
+      size.height * 0.8843375,
+      size.width * 0.3053133,
+      size.height * 0.8730958,
+    );
+    path_0.close();
 
-Path path_0 = Path();
-path_0.moveTo(size.width*0.2533209,size.height*0.5702125);
-path_0.cubicTo(size.width*0.1655684,size.height*0.5026031,size.width*0.06250000,size.height*0.4231937,size.width*0.06250000,size.height*0.2855344);
-path_0.cubicTo(size.width*0.06250000,size.height*0.1335675,size.width*0.2343800,size.height*0.02579575,size.width*0.3750000,size.height*0.1718947);
-path_0.lineTo(size.width*0.4375000,size.height*0.2343525);
-path_0.cubicTo(size.width*0.4466531,size.height*0.2435037,size.width*0.4614937,size.height*0.2435009,size.width*0.4706469,size.height*0.2343463);
-path_0.cubicTo(size.width*0.4797969,size.height*0.2251919,size.width*0.4797938,size.height*0.2103522,size.width*0.4706406,size.height*0.2012009);
-path_0.lineTo(size.width*0.4102656,size.height*0.1408475);
-path_0.cubicTo(size.width*0.5427656,size.height*0.04384656,size.width*0.6875000,size.height*0.1460828,size.width*0.6875000,size.height*0.2855344);
-path_0.cubicTo(size.width*0.6875000,size.height*0.4231937,size.width*0.5844312,size.height*0.5026031,size.width*0.4966781,size.height*0.5702125);
-path_0.cubicTo(size.width*0.4875594,size.height*0.5772406,size.width*0.4786031,size.height*0.5841406,size.width*0.4699469,size.height*0.5909656);
-path_0.cubicTo(size.width*0.4375000,size.height*0.6165437,size.width*0.4062500,size.height*0.6406250,size.width*0.3750000,size.height*0.6406250);
-path_0.cubicTo(size.width*0.3437500,size.height*0.6406250,size.width*0.3125000,size.height*0.6165437,size.width*0.2800541,size.height*0.5909656);
-path_0.cubicTo(size.width*0.2713972,size.height*0.5841406,size.width*0.2624419,size.height*0.5772406,size.width*0.2533209,size.height*0.5702125);
-path_0.close();
+    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
+    paint_0_fill.color = super.color ?? Colors.black.withOpacity(1.0);
+    canvas.drawPath(path_0, paint_0_fill);
+  }
 
-Paint paint_0_fill = Paint()..style=PaintingStyle.fill;
-paint_0_fill.color = Color(0xff000000).withOpacity(1.0);
-canvas.drawPath(path_0,paint_0_fill);
-
-}
-
-@override
-bool shouldRepaint(covariant CustomPainter oldDelegate) {
-return true;
-}
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
 }

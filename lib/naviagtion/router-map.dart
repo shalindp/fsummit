@@ -12,13 +12,14 @@ enum AppRoute {
   auth("/auth"),
   discover("/"),
   match("/match"),
-  conversations("/conversations"),
+  conversations("/conversations", subPaths: ["/chat"]),
   chat("/chat"),
   profile("/profile");
 
   final String path;
+  final List<String> subPaths;
 
-  const AppRoute(this.path);
+  const AppRoute(this.path, {this.subPaths = const []});
 }
 
 final GoRouter appRouterMap = GoRouter(

@@ -3,9 +3,11 @@ class Assets {
   Assets._();
 
   static const String bottomNavBarBottomNavBar = 'lib/widgets/bottomNavBar/bottom-nav-bar.dart';
+  static const String componentsNavBarItem = 'lib/widgets/bottomNavBar/components/nav-bar-item.dart';
   static const String conversationsChatPage = 'lib/screens/core/conversations/chat-page.dart';
   static const String conversationsConversationsPage = 'lib/screens/core/conversations/conversations-page.dart';
   static const String coreLayout = 'lib/screens/core/_layout.dart';
+  static const String customPaintsBaseIcon = 'lib/widgets/customPaints/base-icon.dart';
   static const String customPaintsChatIcon = 'lib/widgets/customPaints/chat-icon.dart';
   static const String customPaintsConstants = 'lib/widgets/customPaints/constants.dart';
   static const String customPaintsDiscoverIcon = 'lib/widgets/customPaints/discover-icon.dart';
