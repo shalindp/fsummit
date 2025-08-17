@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fsummit/widgets/customPaints/base-icon.dart';
 
-class MatchIcon extends AppIcon {
+class MatchIcon  extends CustomPainter {
+  Color? color;
+
+  MatchIcon({super.repaint, this.color});
+
   @override
   void paint(Canvas canvas, Size size) {
     Path path_0 = Path();
@@ -63,7 +66,7 @@ class MatchIcon extends AppIcon {
     path_0.close();
 
     Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = super.color ?? Colors.black.withOpacity(1.0);
+    paint_0_fill.color = color ?? Colors.black.withOpacity(1.0);
     canvas.drawPath(path_0, paint_0_fill);
   }
 

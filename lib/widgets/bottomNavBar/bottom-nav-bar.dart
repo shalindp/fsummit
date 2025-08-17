@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fsummit/naviagtion/router-map.dart';
-import 'package:fsummit/widgets/customPaints/base-icon.dart';
 import 'package:fsummit/widgets/customPaints/chat-icon.dart';
 import 'package:fsummit/widgets/customPaints/constants.dart';
 import 'package:fsummit/widgets/customPaints/match-icon.dart';
@@ -29,7 +30,7 @@ class AppBottomNavBar extends StatelessWidget {
     double bottomInset = MediaQuery.of(context).padding.bottom;
 
     return Container(
-      color: Colors.grey[300],
+      color: Colors.grey[100],
       padding: EdgeInsets.only(bottom: bottomInset),
       child: SizedBox(
         height: 56,
@@ -39,28 +40,28 @@ class AppBottomNavBar extends StatelessWidget {
           children: [
             _navItem(
               isActive: _isActive(AppRoute.discover, context),
-              icon: DiscoverIcon(),
+              painterBuilder: DiscoverIcon.new,
               onTap: () {
                 _onTap(0);
               },
             ),
             _navItem(
               isActive: _isActive(AppRoute.match, context),
-              icon: MatchIcon(),
+              painterBuilder: MatchIcon.new,
               onTap: () {
                 _onTap(1);
               },
             ),
             _navItem(
               isActive: _isActive(AppRoute.conversations, context),
-              icon: ChatIcon(),
+              painterBuilder: ChatIcon.new,
               onTap: () {
                 _onTap(2);
               },
             ),
             _navItem(
               isActive: _isActive(AppRoute.profile, context),
-              icon: ProfileIcon(),
+              painterBuilder: ProfileIcon.new,
               onTap: () {
                 _onTap(3);
               },
