@@ -17,6 +17,15 @@ class _navItemState extends State<_navItem> with SingleTickerProviderStateMixin 
     duration: 200.milliseconds,
   );
 
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget._isActive) {
+      _controller.forward();
+    }
+  }
+
   @override
   void didUpdateWidget(covariant _navItem oldWidget) {
     super.didUpdateWidget(oldWidget);

@@ -20,6 +20,7 @@ class Assets {
   static const String naviagtionRouterMap = 'lib/naviagtion/router-map.dart';
   static const String profileSettingsPage = 'lib/screens/core/profile/settings-page.dart';
   static const String screensAuthPage = 'lib/screens/auth-page.dart';
+  static const String themeAppTheme = 'lib/theme/theme.dart';
   static const String widgetsTest = 'lib/widgets/test.dart';
 
 }

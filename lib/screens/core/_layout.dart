@@ -10,6 +10,7 @@ class CoreTabLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue,
       body: _navigationShell,
       bottomNavigationBar: AppBottomNavBar(onTap: _navigationShell.goBranch,),
     );

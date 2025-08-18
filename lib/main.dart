@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:fsummit/theme/theme.dart';
 
 import 'naviagtion/router-map.dart';
 
@@ -16,6 +17,8 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       title: "Flutter App",
       routerConfig: appRouterMap,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
     );
   }
 }
