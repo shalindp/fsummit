@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fsummit/theme/theme.dart';
+import 'package:fsummit/widgets/customPaints/constants.dart';
+import 'package:fsummit/widgets/customPaints/leftChevron.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../services/appModule.dart';
 import '../../../services/uiService.dart';
 
 class ChatPage extends StatelessWidget {
-  late UiService _uiService;
 
   ChatPage({super.key});
 
+  late final UiService _uiService =  locator.get<UiService>();
+
+
   @override
   Widget build(BuildContext context) {
-    print("build chat");
-    _uiService = locator.get<UiService>();
     _uiService.updateAppBar(_Header());
 
     return Container(
@@ -35,16 +38,23 @@ class _Header extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final double topPadding = MediaQuery.of(context).padding.top;
 
     return Container(
       padding: EdgeInsets.only(top: topPadding, left: 16, right: 16),
       height: preferredSize.height + topPadding,
       child: Row(
-        spacing: 10,
+        spacing: 16,
         children: [
-          Text("<", style: TextStyle(color: Colors.white, fontSize: 16)),
+          GestureDetector(
+            onTap: () {
+              GoRouter.of(context).pop();
+            },
+            child: CustomPaint(
+              painter: LeftChevronIcon(color: AppTheme.of(context).col30),
+              size: AppIconSize.sm.size,
+            ),
+          ),
           Container(
             width: 46,
             height: 46,
@@ -67,7 +77,7 @@ class _Header extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>  const Size.fromHeight(56);
+  Size get preferredSize => const Size.fromHeight(56);
 }
 
 class _Conversation extends StatelessWidget {

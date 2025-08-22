@@ -8,7 +8,7 @@ import 'package:signals/signals_flutter.dart';
 
 import '../../services/navigationService.dart';
 
-final appBarWhitelist = [AppRoute.chat];
+final appBarWhitelist = [AppRoute.chat, AppRoute.conversations];
 
 class AppScaffold extends StatelessWidget {
   final Widget? body;
@@ -19,33 +19,16 @@ class AppScaffold extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
   }
 
-  // final computedAppBarSignal = computed(() {
-  //   var uiService = locator.get<UiService>();
-  //
-  //   var canDisplayAppBar = appBarWhitelist.where((c) => c == navigationService.activePageDetailsSignal.value).isNotEmpty;
-  //   if (canDisplayAppBar && uiService.appBarSignal.value != null) {
-  //     return uiService.appBarSignal.value;
-  //   } else {
-  //     return null;
-  //   }
-  // });
+  late var uiService = locator.get<UiService>();
 
   dynamic _getAppBar(BuildContext context) {
-    var uiService = locator.get<UiService>();
-    var x = GoRouter.of(context);
-    var canDisplayAppBar = appBarWhitelist.where((c) => c.path == x.state.uri.path).isNotEmpty;
-
+    var router = GoRouter.of(context);
+    var canDisplayAppBar = appBarWhitelist.where((c) => c.path == router.state.uri.path).isNotEmpty;
     return canDisplayAppBar ? uiService.appBarSignal.watch(context) : null;
   }
 
   @override
   Widget build(BuildContext context) {
-    var uiService = locator.get<UiService>();
-
-    var x = GoRouter.of(context);
-    var canDisplayAppBar = appBarWhitelist.where((c) => c.path == x.state.uri.path).isNotEmpty;
-
-    print("object@> ${x.state.path} ${x.state.uri.path}");
     return Scaffold(appBar: _getAppBar(context), body: body, backgroundColor: backgroundColor, bottomNavigationBar: bottomNavigationBar);
   }
 }

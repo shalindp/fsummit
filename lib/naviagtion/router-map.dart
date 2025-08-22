@@ -59,7 +59,7 @@ final GoRouter appRouterMap = GoRouter(
             GoRoute(
               path: AppRoute.conversations.path,
               builder: (context, state) {
-                return const ConversationsPage();
+                return ConversationsPage();
               },
             ),
             GoRoute(

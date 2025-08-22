@@ -14,3 +14,5 @@ class AppIcon extends CustomPainter {
     return false;
   }
 }
+
+

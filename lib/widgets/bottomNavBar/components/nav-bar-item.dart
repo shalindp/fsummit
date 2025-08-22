@@ -45,13 +45,13 @@ class _navItemState extends State<_navItem> with SingleTickerProviderStateMixin 
         child: Container(
           color: Colors.transparent,
           alignment: Alignment.center,
-          width: AppIconSIze.md.size.width,
+          width: AppIconSize.md.size.width,
           child: Animate(autoPlay: false, controller: _controller).custom(
             duration: 320.milliseconds,
             builder: (context, value, listenable) {
               var color =  Color.lerp(Colors.grey[300], AppTheme.of(context).col10, value);
               return CustomPaint(
-                size: AppIconSIze.md.size,
+                size: AppIconSize.md.size,
                 painter: widget.painterBuilder(color: color),
               );
             },
