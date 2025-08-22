@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:signals/signals_flutter.dart';
 
 final appBarWhitelist = [AppRoute.chat, AppRoute.conversations];
+final bottomBarWhitelist = [AppRoute.chat];
 
 class AppScaffold extends StatelessWidget {
   final Widget? body;
@@ -18,7 +19,7 @@ class AppScaffold extends StatelessWidget {
   final _navService = locator.get<NavigationService>();
 
   AppScaffold({super.key, this.body, this.bottomNavigationBar, this.backgroundColor}) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
   }
 
 
@@ -28,12 +29,18 @@ class AppScaffold extends StatelessWidget {
     return canDisplayAppBar ? _uiService.appBarSignal.watch(context) : null;
   }
 
+  dynamic _getBottomBar(BuildContext context) {
+    var router = GoRouter.of(context);
+    var canDisplayAppBar = bottomBarWhitelist.where((c) => c.path == router.state.uri.path).isNotEmpty;
+    return canDisplayAppBar ? _uiService.bottomBarSignal.watch(context) : bottomNavigationBar;
+  }
+
   @override
   Widget build(BuildContext context) {
     var router = GoRouter.of(context);
     _navService.activeRouter = AppRoute.values.firstWhere((c) => c.path == router.state.uri.path);
 
-    return Scaffold(appBar: _getAppBar(context), body: body, backgroundColor: backgroundColor, bottomNavigationBar: bottomNavigationBar);
+    return Scaffold(appBar: _getAppBar(context), body: body, backgroundColor: backgroundColor, bottomNavigationBar: _getBottomBar(context));
   }
 }
 

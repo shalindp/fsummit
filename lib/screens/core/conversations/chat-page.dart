@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fsummit/naviagtion/router-map.dart';
 import 'package:fsummit/theme/theme.dart';
 import 'package:fsummit/widgets/customPaints/constants.dart';
@@ -17,6 +18,7 @@ class ChatPage extends StatelessWidget {
   ChatPage({super.key}) {
     if (_navService.activeRouter == AppRoute.chat) {
       _uiService.updateAppBar(_ChatHeader());
+      _uiService.updateBottomBar(_BottomBar());
     }
   }
 
@@ -93,11 +95,12 @@ class _ChatHeader extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(height);
 }
 
-
 class _Conversation extends StatelessWidget {
+  final _uiService = locator.get<UiService>();
+
   final ScrollController _scrollController = ScrollController();
 
-  _Conversation({super.key}){
+  _Conversation({super.key}) {
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   _scrollController.jumpTo(
     //     _scrollController.position.maxScrollExtent,
@@ -107,6 +110,12 @@ class _Conversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var pT = _uiService.safeArea.top;
+    var pB = _uiService.safeArea.bottom;
+
+    var maxHeight = _uiService.maxHeight - pT - pB - _ChatHeader.height;
+
+    var height = maxHeight - pT -pB;
     return Expanded(
       child: ListView.builder(
         controller: _scrollController,
@@ -136,14 +145,30 @@ class _Message extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: isMe ? AppTheme.of(context).col10 : Colors.grey[900],
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Text(
-          message.content.trim(),
-          style: TextStyle(fontSize: 16, color: isMe ? Colors.white : Colors.white),
-        ),
+        decoration: BoxDecoration(color: isMe ? AppTheme.of(context).col10 : Colors.grey[900], borderRadius: BorderRadius.circular(18)),
+        child: Text(message.content.trim(), style: TextStyle(fontSize: 16, color: isMe ? Colors.white : Colors.white)),
+      ),
+    );
+  }
+}
+
+class _BottomBar extends StatelessWidget {
+  const _BottomBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final EdgeInsets safeArea = MediaQuery.of(context).padding;
+
+    return Transform.translate(
+      offset: Offset(0.0, -1 * MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        color: Colors.black,
+        padding: EdgeInsets.only(bottom: 0),
+        child: SizedBox(height: 56, child: TextField(
+
+
+          // keyboardAppearance: Brightness.dark,
+        )),
       ),
     );
   }

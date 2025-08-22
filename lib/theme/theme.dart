@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static final ThemeData lightTheme = ThemeData(extensions: <AppColors>[AppColors.light]);
-  static final ThemeData darkTheme = ThemeData(extensions: <AppColors>[AppColors.dark]);
+  static final ThemeData lightTheme = ThemeData.light().copyWith(
+    extensions: <ThemeExtension<dynamic>>[
+      AppColors.light,
+    ],
+  );
+
+  static final ThemeData darkTheme = ThemeData.dark().copyWith(
+    extensions: <ThemeExtension<dynamic>>[
+      AppColors.dark,
+    ],
+  );
 
   static AppColors of(BuildContext context) {
     return Theme.of(context).extension<AppColors>()!;

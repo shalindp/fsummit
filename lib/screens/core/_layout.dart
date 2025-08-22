@@ -12,10 +12,15 @@ class CoreTabLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      backgroundColor: AppTheme.of(context).col60,
-      body: _navigationShell,
-      bottomNavigationBar: AppBottomNavBar(onTap: _navigationShell.goBranch,),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus(); // Dismiss the keyboard when tapping outside
+      },
+      child: AppScaffold(
+        backgroundColor: AppTheme.of(context).col60,
+        body: _navigationShell,
+        bottomNavigationBar: AppBottomNavBar(onTap: _navigationShell.goBranch),
+      ),
     );
   }
 }

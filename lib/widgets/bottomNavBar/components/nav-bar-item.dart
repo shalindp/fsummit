@@ -14,7 +14,7 @@ class _navItem extends StatefulWidget {
 class _navItemState extends State<_navItem> with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: 200.milliseconds,
+    duration: 100.milliseconds,
   );
 
 
