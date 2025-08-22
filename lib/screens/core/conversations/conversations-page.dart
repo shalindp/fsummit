@@ -11,11 +11,9 @@ class ConversationsPage extends StatelessWidget {
   late final _navService = locator.get<NavigationService>();
 
   ConversationsPage({super.key}){
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
       if(_navService.activeRouter == AppRoute.conversations){
         _uiService.updateAppBar(_Header());
       }
-    // });
   }
 
   @override

@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String apiApiTypes = 'lib/api/apiTypes.dart';
   static const String appScalfoldScafold = 'lib/widgets/appScalfold/scafold.dart';
   static const String bottomNavBarBottomNavBar = 'lib/widgets/bottomNavBar/bottom-nav-bar.dart';
   static const String componentsNavBarItem = 'lib/widgets/bottomNavBar/components/nav-bar-item.dart';
@@ -12,6 +13,7 @@ class Assets {
   static const String customPaintsChatIcon = 'lib/widgets/customPaints/chat-icon.dart';
   static const String customPaintsConstants = 'lib/widgets/customPaints/constants.dart';
   static const String customPaintsDiscoverIcon = 'lib/widgets/customPaints/discover-icon.dart';
+  static const String customPaintsLeftChevron = 'lib/widgets/customPaints/leftChevron.dart';
   static const String customPaintsMatchIcon = 'lib/widgets/customPaints/match-icon.dart';
   static const String customPaintsProfileIcon = 'lib/widgets/customPaints/profile-icon.dart';
   static const String discoverDiscoverPage = 'lib/screens/core/discover/discover-page.dart';
