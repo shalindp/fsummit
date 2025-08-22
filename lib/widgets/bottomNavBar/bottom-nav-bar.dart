@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fsummit/naviagtion/router-map.dart';
+import 'package:fsummit/theme/theme.dart';
 import 'package:fsummit/widgets/customPaints/chat-icon.dart';
 import 'package:fsummit/widgets/customPaints/constants.dart';
 import 'package:fsummit/widgets/customPaints/match-icon.dart';
@@ -17,7 +18,7 @@ class AppBottomNavBar extends StatelessWidget {
 
   const AppBottomNavBar({super.key, required void Function(int index) onTap}) : _onTap = onTap;
 
- bool _isActive(AppRoute route, BuildContext context) {
+  bool _isActive(AppRoute route, BuildContext context) {
     final currentPath = GoRouterState.of(context).uri.path;
 
     bool isSubPath = route.subPaths.where((subPath) => currentPath.startsWith(subPath)).isNotEmpty;
@@ -30,7 +31,6 @@ class AppBottomNavBar extends StatelessWidget {
     double bottomInset = MediaQuery.of(context).padding.bottom;
 
     return Container(
-      color: Colors.grey[100],
       padding: EdgeInsets.only(bottom: bottomInset),
       child: SizedBox(
         height: 56,

@@ -65,7 +65,13 @@ final GoRouter appRouterMap = GoRouter(
             GoRoute(
               path: AppRoute.chat.path,
               builder: (context, state) {
-                return const ChatPage();
+                return ChatPage();
+              },
+            ),
+            GoRoute(
+              path: "/dog",
+              builder: (context, state) {
+                return ChatPage();
               },
             ),
           ],
@@ -84,3 +90,6 @@ final GoRouter appRouterMap = GoRouter(
     ),
   ],
 );
+
+void x(){
+}

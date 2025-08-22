@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String appScalfoldScafold = 'lib/widgets/appScalfold/scafold.dart';
   static const String bottomNavBarBottomNavBar = 'lib/widgets/bottomNavBar/bottom-nav-bar.dart';
   static const String componentsNavBarItem = 'lib/widgets/bottomNavBar/components/nav-bar-item.dart';
   static const String conversationsChatPage = 'lib/screens/core/conversations/chat-page.dart';
@@ -20,7 +21,10 @@ class Assets {
   static const String naviagtionRouterMap = 'lib/naviagtion/router-map.dart';
   static const String profileSettingsPage = 'lib/screens/core/profile/settings-page.dart';
   static const String screensAuthPage = 'lib/screens/auth-page.dart';
-  static const String themeAppTheme = 'lib/theme/theme.dart';
+  static const String servicesAppModule = 'lib/services/appModule.dart';
+  static const String servicesNavigationService = 'lib/services/navigationService.dart';
+  static const String servicesUiService = 'lib/services/uiService.dart';
+  static const String themeTheme = 'lib/theme/theme.dart';
   static const String widgetsTest = 'lib/widgets/test.dart';
 
 }

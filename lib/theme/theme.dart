@@ -31,7 +31,7 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors(col10: Color.lerp(col10, other.col10, t), col30: Color.lerp(col30, other.col30, t), col60: Color.lerp(col60, other.col60, t));
   }
 
-  static const light = AppColors(col10: Color(0xFFEEEEEE), col30: Color(0xFFCCCCCC), col60: Color(0xFF999999));
+  static const light = AppColors(col10: Color(0xFF4356FF), col30: Color(0xFF2C2C2C), col60: Color(0xFFFFFFFF));
 
-  static const dark = AppColors(col10: Color(0xFF333333), col30: Color(0xFF555555), col60: Color(0xFF777777));
+  static const dark = AppColors(col10: Color(0xFF4356FF), col30: Color(0xFFCCCCCC), col60: Color(0xFF030303));
 }
