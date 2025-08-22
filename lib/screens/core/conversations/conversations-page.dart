@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import '../../../naviagtion/router-map.dart';
 import '../../../services/appModule.dart';
+import '../../../services/navigationService.dart';
 import '../../../services/uiService.dart';
 import '../../../theme/theme.dart';
-import '../../../widgets/customPaints/constants.dart';
-import '../../../widgets/customPaints/leftChevron.dart';
 
 class ConversationsPage extends StatelessWidget {
-  ConversationsPage({super.key});
+  late final _uiService = locator.get<UiService>();
+  late final _navService = locator.get<NavigationService>();
 
-  late final UiService _uiService =  locator.get<UiService>();
+  ConversationsPage({super.key}){
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(_navService.activeRouter == AppRoute.conversations){
+        _uiService.updateAppBar(_Header());
+      }
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
-    _uiService.updateAppBar(_Header());
-
-    return SizedBox(
-      child: Center(
+    return Container(
+      color: AppTheme.of(context).col60,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("ConversationsPage"),
-            ElevatedButton(
-              onPressed: () {
-                context.push('/chat');
-              },
-              child: Text("Go to chat"),
-            ),
+            _Conversation(),
           ],
         ),
       ),
@@ -45,39 +44,37 @@ class _Header extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       padding: EdgeInsets.only(top: topPadding, left: 16, right: 16),
       height: preferredSize.height + topPadding,
-      child: Row(
-        spacing: 16,
-        children: [
-          GestureDetector(
-            onTap: () {
-              GoRouter.of(context).pop();
-            },
-            child: CustomPaint(
-              painter: LeftChevronIcon(color: AppTheme.of(context).col30),
-              size: AppIconSize.sm.size,
-            ),
-          ),
-          Container(
-            width: 46,
-            height: 46,
-            decoration: BoxDecoration(color: Colors.grey[300], shape: BoxShape.circle),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Kawya',
-                style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Text('Active 40m ago', style: TextStyle(color: Colors.grey[400], fontSize: 12)),
-            ],
-          ),
-        ],
-      ),
+      color: Colors.grey[900],
     );
   }
 
   @override
   Size get preferredSize => const Size.fromHeight(56);
+}
+
+class _Conversation extends StatelessWidget {
+  const _Conversation({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 500,
+        padding: const EdgeInsets.all(0),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              GoRouter.of(context).push(AppRoute.chat.path);
+            },
+            child: ListTile(
+              leading: CircleAvatar(backgroundColor: Colors.blue, child: Text('U$index')),
+              title: Text('User $index'),
+              subtitle: Text('Message from user $index'),
+              trailing: Text('10:${index % 60}'),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }

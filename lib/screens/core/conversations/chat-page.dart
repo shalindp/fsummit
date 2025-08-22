@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:fsummit/naviagtion/router-map.dart';
 import 'package:fsummit/theme/theme.dart';
 import 'package:fsummit/widgets/customPaints/constants.dart';
 import 'package:fsummit/widgets/customPaints/leftChevron.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../services/appModule.dart';
+import '../../../services/navigationService.dart';
 import '../../../services/uiService.dart';
 
 class ChatPage extends StatelessWidget {
+  final _uiService = locator.get<UiService>();
+  final _navService = locator.get<NavigationService>();
 
-  ChatPage({super.key});
-
-  late final UiService _uiService =  locator.get<UiService>();
-
+  ChatPage({super.key}) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_navService.activeRouter == AppRoute.chat) {
+        _uiService.updateAppBar(_ChatHeader());
+      }
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
-    _uiService.updateAppBar(_Header());
-
     return Container(
       color: AppTheme.of(context).col60,
       child: Padding(
         padding: const EdgeInsets.only(top: 0),
         child: Column(
           children: [
-            // _Header(),
-            _Conversation(),
+            // _Conversation(),
           ],
         ),
       ),
@@ -33,8 +37,8 @@ class ChatPage extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget implements PreferredSizeWidget {
-  const _Header({super.key});
+class _ChatHeader extends StatelessWidget implements PreferredSizeWidget {
+  const _ChatHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,26 +82,4 @@ class _Header extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(56);
-}
-
-class _Conversation extends StatelessWidget {
-  const _Conversation({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: 500,
-        padding: const EdgeInsets.all(0),
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: CircleAvatar(backgroundColor: Colors.blue, child: Text('U$index')),
-            title: Text('User $index'),
-            subtitle: Text('Message from user $index'),
-            trailing: Text('10:${index % 60}'),
-          );
-        },
-      ),
-    );
-  }
 }
