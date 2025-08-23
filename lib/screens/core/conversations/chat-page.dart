@@ -145,7 +145,7 @@ class _Conversation extends StatelessWidget {
 
 
     return AnimatedSize(
-      duration: 250.milliseconds,
+      duration: 200.milliseconds,
       curve: Curves.linear,
       child: SizedBox(
         height: _keyboardHeightSignal.watch(context) > 0 ? maxHeight - _keyboardHeightSignal.peek() : maxHeight,
@@ -199,7 +199,7 @@ class _BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[900],
+      color: Colors.black,
       // padding: EdgeInsets.only(bottom: _keyboardHeightSignal.watch(context) > 0 ? 0 : _uiService.safeArea.bottom),
       child: SizedBox(height: 56, child: TextField(focusNode: _focusNode)),
     );
