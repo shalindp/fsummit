@@ -30,7 +30,7 @@ class _navItemState extends State<_navItem> with SingleTickerProviderStateMixin 
   void didUpdateWidget(covariant _navItem oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget._isActive) {
-      HapticFeedback.lightImpact();
+      // HapticFeedback.lightImpact();
       _controller.forward();
     } else {
       _controller.reverse();

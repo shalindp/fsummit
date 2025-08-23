@@ -24,6 +24,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _uiService.setDimensions(MediaQuery.of(context).padding, MediaQuery.of(context).size.height);
+    _uiService.setKeyboardHeight(context);
 
     return MaterialApp.router(title: "Flutter App", routerConfig: appRouterMap, theme: AppTheme.lightTheme, darkTheme: AppTheme.darkTheme);
   }

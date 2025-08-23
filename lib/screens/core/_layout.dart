@@ -14,7 +14,8 @@ class CoreTabLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus(); // Dismiss the keyboard when tapping outside
+        // FocusManager.instance.primaryFocus?.unfocus();
+        FocusScope.of(context).unfocus();
       },
       child: AppScaffold(
         backgroundColor: AppTheme.of(context).col60,

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fsummit/naviagtion/router-map.dart';
 import 'package:fsummit/theme/theme.dart';
 import 'package:fsummit/widgets/customPaints/constants.dart';
 import 'package:fsummit/widgets/customPaints/leftChevron.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:keyboard_height_plugin/keyboard_height_plugin.dart';
+import 'package:signals/signals_flutter.dart';
 
 import '../../../api/apiTypes.dart';
 import '../../../services/appModule.dart';
@@ -12,14 +16,29 @@ import '../../../services/navigationService.dart';
 import '../../../services/uiService.dart';
 
 class ChatPage extends StatelessWidget {
-  final _uiService = locator.get<UiService>();
-  final _navService = locator.get<NavigationService>();
+  final _uiService = GetIt.I<UiService>();
+  final _navService = GetIt.I<NavigationService>();
+
+  final KeyboardHeightPlugin _keyboardHeightPlugin = KeyboardHeightPlugin();
+
+  final _focusNode = FocusNode();
+  final _scrollController = ScrollController();
+  final _hasFocusSignal = signal<bool>(false);
+  final _keyboardHeightSignal = signal<double>(0);
 
   ChatPage({super.key}) {
     if (_navService.activeRouter == AppRoute.chat) {
       _uiService.updateAppBar(_ChatHeader());
-      _uiService.updateBottomBar(_BottomBar());
+      _uiService.updateBottomBar(null);
     }
+
+    _focusNode.addListener(() {
+      _hasFocusSignal.set(_focusNode.hasFocus);
+    });
+
+    _keyboardHeightPlugin.onKeyboardHeightChanged((double height) {
+      _keyboardHeightSignal.set(height);
+    });
   }
 
   @override
@@ -27,8 +46,13 @@ class ChatPage extends StatelessWidget {
     return Container(
       color: AppTheme.of(context).col60,
       child: Padding(
-        padding: const EdgeInsets.only(top: 0),
-        child: Column(children: [_Conversation()]),
+        padding: EdgeInsets.only(),
+        child: Column(
+          children: [
+            _Conversation(uiService: _uiService, scrollController: _scrollController, keyboardHeightSignal: _keyboardHeightSignal),
+            _BottomBar(uiService: _uiService, focusNode: _focusNode, keyboardHeightSignal: _keyboardHeightSignal),
+          ],
+        ),
       ),
     );
   }
@@ -50,7 +74,10 @@ class _ChatHeader extends StatelessWidget implements PreferredSizeWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).pop();
+              FocusManager.instance.primaryFocus?.unfocus();
+              if (GoRouter.of(context).canPop()) {
+                GoRouter.of(context).pop();
+              }
             },
             child: Container(
               color: Colors.transparent,
@@ -96,47 +123,54 @@ class _ChatHeader extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _Conversation extends StatelessWidget {
-  final _uiService = locator.get<UiService>();
+  final UiService _uiService;
+  final ScrollController _scrollController;
+  final FlutterSignal<double> _keyboardHeightSignal;
 
-  final ScrollController _scrollController = ScrollController();
-
-  _Conversation({super.key}) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _scrollController.jumpTo(
-    //     _scrollController.position.maxScrollExtent,
-    //   );
-    // });
-  }
+  const _Conversation({
+    super.key,
+    required UiService uiService,
+    required ScrollController scrollController,
+    required FlutterSignal<double> keyboardHeightSignal,
+  }) : _uiService = uiService,
+       _scrollController = scrollController,
+       _keyboardHeightSignal = keyboardHeightSignal;
 
   @override
   Widget build(BuildContext context) {
-    var pT = _uiService.safeArea.top;
-    var pB = _uiService.safeArea.bottom;
+    double maxHeight = _uiService.maxHeight - _uiService.safeArea.top - _ChatHeader.height * 2;
+    if(_keyboardHeightSignal.peek() == 0){
+      maxHeight = maxHeight - _uiService.safeArea.bottom;
+    }
 
-    var maxHeight = _uiService.maxHeight - pT - pB - _ChatHeader.height;
 
-    var height = maxHeight - pT -pB;
-    return Expanded(
-      child: ListView.builder(
-        controller: _scrollController,
-        itemCount: MockData.conv1Messages.length,
-        reverse: true, // so newest is at the bottom
-        itemBuilder: (context, index) {
-          final message = MockData.conv1Messages[index];
-          final isMe = message.sender == MockData.users1; // or compare to current user
+    return AnimatedSize(
+      duration: 250.milliseconds,
+      curve: Curves.linear,
+      child: SizedBox(
+        height: _keyboardHeightSignal.watch(context) > 0 ? maxHeight - _keyboardHeightSignal.peek() : maxHeight,
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          controller: _scrollController,
+          itemCount: MockData.conv1Messages.length,
+          reverse: true,
+          itemBuilder: (context, index) {
+            final message = MockData.conv1Messages[index];
+            final isMe = message.sender == MockData.users1;
 
-          return _Message(message: message, isMe: isMe);
-        },
+            return _MessageBubble(message: message, isMe: isMe);
+          },
+        ),
       ),
     );
   }
 }
 
-class _Message extends StatelessWidget {
+class _MessageBubble extends StatelessWidget {
   final Message message;
   final bool isMe;
 
-  const _Message({super.key, required this.message, required this.isMe});
+  const _MessageBubble({super.key, required this.message, required this.isMe});
 
   @override
   Widget build(BuildContext context) {
@@ -153,23 +187,21 @@ class _Message extends StatelessWidget {
 }
 
 class _BottomBar extends StatelessWidget {
-  const _BottomBar({super.key});
+  final UiService _uiService;
+  final FocusNode _focusNode;
+  final FlutterSignal<double> _keyboardHeightSignal;
+
+  const _BottomBar({super.key, required UiService uiService, required FocusNode focusNode, required FlutterSignal<double> keyboardHeightSignal})
+    : _uiService = uiService,
+      _focusNode = focusNode,
+      _keyboardHeightSignal = keyboardHeightSignal;
 
   @override
   Widget build(BuildContext context) {
-    final EdgeInsets safeArea = MediaQuery.of(context).padding;
-
-    return Transform.translate(
-      offset: Offset(0.0, -1 * MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
-        color: Colors.black,
-        padding: EdgeInsets.only(bottom: 0),
-        child: SizedBox(height: 56, child: TextField(
-
-
-          // keyboardAppearance: Brightness.dark,
-        )),
-      ),
+    return Container(
+      color: Colors.grey[900],
+      // padding: EdgeInsets.only(bottom: _keyboardHeightSignal.watch(context) > 0 ? 0 : _uiService.safeArea.bottom),
+      child: SizedBox(height: 56, child: TextField(focusNode: _focusNode)),
     );
   }
 }

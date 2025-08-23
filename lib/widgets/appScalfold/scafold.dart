@@ -40,7 +40,8 @@ class AppScaffold extends StatelessWidget {
     var router = GoRouter.of(context);
     _navService.activeRouter = AppRoute.values.firstWhere((c) => c.path == router.state.uri.path);
 
-    return Scaffold(appBar: _getAppBar(context), body: body, backgroundColor: backgroundColor, bottomNavigationBar: _getBottomBar(context));
+    return Scaffold(
+      appBar: _getAppBar(context), body: body, backgroundColor: backgroundColor, bottomNavigationBar: _getBottomBar(context),);
   }
 }
 
