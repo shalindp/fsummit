@@ -14,7 +14,6 @@ class CoreTabLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // FocusManager.instance.primaryFocus?.unfocus();
         FocusScope.of(context).unfocus();
       },
       child: AppScaffold(

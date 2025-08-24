@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import '../../../naviagtion/router-map.dart';
-import '../../../services/appModule.dart';
 import '../../../services/navigationService.dart';
 import '../../../services/uiService.dart';
 import '../../../theme/theme.dart';
 
-class ConversationsPage extends StatelessWidget {
-  late final _uiService = locator.get<UiService>();
-  late final _navService = locator.get<NavigationService>();
+class ConversationsPage extends StatefulWidget {
 
-  ConversationsPage({super.key}){
-      if(_navService.activeRouter == AppRoute.conversations){
-        _uiService.updateAppBar(_Header());
-      }
+  const ConversationsPage({super.key});
+
+  @override
+  State<ConversationsPage> createState() => _ConversationsPageState();
+}
+
+class _ConversationsPageState extends State<ConversationsPage> {
+  final _uiService = GetIt.I<UiService>();
+  final _navService = GetIt.I<NavigationService>();
+
+  @override
+  void initState() {
+    super.initState();
+    _uiService.appBottomNavBarVisibleSignal.set(true);
   }
 
   @override
@@ -22,11 +30,7 @@ class ConversationsPage extends StatelessWidget {
       color: AppTheme.of(context).col60,
       child: Padding(
         padding: const EdgeInsets.only(top: 0),
-        child: Column(
-          children: [
-            _Conversation(),
-          ],
-        ),
+        child: Column(children: [_Header(), _Conversation()]),
       ),
     );
   }

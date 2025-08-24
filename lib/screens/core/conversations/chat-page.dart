@@ -14,37 +14,52 @@ import '../../../api/apiTypes.dart';
 import '../../../services/navigationService.dart';
 import '../../../services/uiService.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
+
+  const ChatPage({super.key});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
   final _uiService = GetIt.I<UiService>();
   final _navService = GetIt.I<NavigationService>();
 
-  final KeyboardHeightPlugin _keyboardHeightPlugin = KeyboardHeightPlugin();
-
+  final _keyboardHeightPlugin = KeyboardHeightPlugin();
   final _focusNode = FocusNode();
   final _scrollController = ScrollController();
   final _keyboardHeightSignal = signal<double>(0);
 
-  ChatPage({super.key}) {
-    if (_navService.activeRouter == AppRoute.chat) {
-      _uiService.updateAppBar(_ChatHeader());
-      _uiService.updateBottomBar(null);
-    }
-
+  @override
+  void initState() {
+    super.initState();
     _keyboardHeightPlugin.onKeyboardHeightChanged((double height) {
       _keyboardHeightSignal.set(height);
     });
+
+    // _uiService.appBottomNavBarVisibleSignal.set(false);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // _uiService.appBottomNavBarVisibleSignal.set(true);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.of(context).col60,
+      color: AppTheme
+          .of(context)
+          .col60,
       child: Padding(
         padding: EdgeInsets.only(),
         child: Column(
           children: [
+            _ChatHeader(),
             _Conversation(uiService: _uiService, scrollController: _scrollController, keyboardHeightSignal: _keyboardHeightSignal),
-            _BottomBar( focusNode: _focusNode),
+            _BottomBar(focusNode: _focusNode),
           ],
         ),
       ),
@@ -59,7 +74,10 @@ class _ChatHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double topPadding = MediaQuery.of(context).padding.top;
+    final double topPadding = MediaQuery
+        .of(context)
+        .padding
+        .top;
 
     return Container(
       padding: EdgeInsets.only(top: topPadding, right: 16),
@@ -81,7 +99,9 @@ class _ChatHeader extends StatelessWidget implements PreferredSizeWidget {
                 alignment: Alignment.center,
                 child: CustomPaint(
                   size: AppIconSize.md.size,
-                  painter: LeftChevronIcon(color: AppTheme.of(context).col30),
+                  painter: LeftChevronIcon(color: AppTheme
+                      .of(context)
+                      .col30),
                 ),
               ),
             ),
@@ -126,9 +146,10 @@ class _Conversation extends StatelessWidget {
     required UiService uiService,
     required ScrollController scrollController,
     required FlutterSignal<double> keyboardHeightSignal,
-  }) : _uiService = uiService,
-       _scrollController = scrollController,
-       _keyboardHeightSignal = keyboardHeightSignal;
+  })
+      : _uiService = uiService,
+        _scrollController = scrollController,
+        _keyboardHeightSignal = keyboardHeightSignal;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +196,9 @@ class _MessageBubble extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: isMe ? AppTheme.of(context).col10 : Colors.grey[900], borderRadius: BorderRadius.circular(18)),
+        decoration: BoxDecoration(color: isMe ? AppTheme
+            .of(context)
+            .col10 : Colors.grey[900], borderRadius: BorderRadius.circular(18)),
         child: Text(message.content.trim(), style: TextStyle(fontSize: 16, color: isMe ? Colors.white : Colors.white)),
       ),
     );
@@ -203,8 +226,8 @@ class _BottomBar extends StatelessWidget {
                 width: 260,
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(99),
-                  color: Color(0xFF0C0C0C)
+                    borderRadius: BorderRadius.circular(99),
+                    color: Color(0xFF0C0C0C)
                 ),
                 child: Align(
                   alignment: AlignmentGeometry.center,
