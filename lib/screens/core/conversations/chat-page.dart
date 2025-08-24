@@ -11,7 +11,6 @@ import 'package:keyboard_height_plugin/keyboard_height_plugin.dart';
 import 'package:signals/signals_flutter.dart';
 
 import '../../../api/apiTypes.dart';
-import '../../../services/appModule.dart';
 import '../../../services/navigationService.dart';
 import '../../../services/uiService.dart';
 
@@ -23,7 +22,6 @@ class ChatPage extends StatelessWidget {
 
   final _focusNode = FocusNode();
   final _scrollController = ScrollController();
-  final _hasFocusSignal = signal<bool>(false);
   final _keyboardHeightSignal = signal<double>(0);
 
   ChatPage({super.key}) {
@@ -31,10 +29,6 @@ class ChatPage extends StatelessWidget {
       _uiService.updateAppBar(_ChatHeader());
       _uiService.updateBottomBar(null);
     }
-
-    _focusNode.addListener(() {
-      _hasFocusSignal.set(_focusNode.hasFocus);
-    });
 
     _keyboardHeightPlugin.onKeyboardHeightChanged((double height) {
       _keyboardHeightSignal.set(height);
@@ -50,7 +44,7 @@ class ChatPage extends StatelessWidget {
         child: Column(
           children: [
             _Conversation(uiService: _uiService, scrollController: _scrollController, keyboardHeightSignal: _keyboardHeightSignal),
-            _BottomBar(uiService: _uiService, focusNode: _focusNode, keyboardHeightSignal: _keyboardHeightSignal),
+            _BottomBar( focusNode: _focusNode),
           ],
         ),
       ),
@@ -138,19 +132,21 @@ class _Conversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double maxHeight = _uiService.maxHeight - _uiService.safeArea.top - _ChatHeader.height * 2;
-    if(_keyboardHeightSignal.peek() == 0){
+    double maxHeight = _uiService.maxHeight - _uiService.safeArea.top - _ChatHeader.height - _BottomBar.height;
+    if (_keyboardHeightSignal.peek() == 0) {
       maxHeight = maxHeight - _uiService.safeArea.bottom;
     }
 
-
     return AnimatedSize(
-      duration: 200.milliseconds,
-      curve: Curves.linear,
+      duration: _uiService.wasKeyboardUp ? 300.milliseconds : 150.milliseconds,
+      curve: _uiService.wasKeyboardUp ? Curves.easeOutCubic : Curves.easeIn,
+      onEnd: () {
+        _uiService.wasKeyboardUp = _keyboardHeightSignal.peek() > 0;
+      },
       child: SizedBox(
         height: _keyboardHeightSignal.watch(context) > 0 ? maxHeight - _keyboardHeightSignal.peek() : maxHeight,
         child: ListView.builder(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.symmetric(vertical: 16),
           controller: _scrollController,
           itemCount: MockData.conv1Messages.length,
           reverse: true,
@@ -187,21 +183,51 @@ class _MessageBubble extends StatelessWidget {
 }
 
 class _BottomBar extends StatelessWidget {
-  final UiService _uiService;
   final FocusNode _focusNode;
-  final FlutterSignal<double> _keyboardHeightSignal;
 
-  const _BottomBar({super.key, required UiService uiService, required FocusNode focusNode, required FlutterSignal<double> keyboardHeightSignal})
-    : _uiService = uiService,
-      _focusNode = focusNode,
-      _keyboardHeightSignal = keyboardHeightSignal;
+  static const height = 56.0;
+
+  const _BottomBar({super.key, required FocusNode focusNode}) : _focusNode = focusNode;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      // padding: EdgeInsets.only(bottom: _keyboardHeightSignal.watch(context) > 0 ? 0 : _uiService.safeArea.bottom),
-      child: SizedBox(height: 56, child: TextField(focusNode: _focusNode)),
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Row(
+          children: [
+            Align(
+              alignment: AlignmentGeometry.topCenter,
+              child: Container(
+                height: 38,
+                width: 260,
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(99),
+                  color: Color(0xFF0C0C0C)
+                ),
+                child: Align(
+                  alignment: AlignmentGeometry.center,
+                  child: TextField(
+                    focusNode: _focusNode,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                      // contentPadding: EdgeInsets.zero,
+                      hintText: "Aa",
+                      border: OutlineInputBorder(
+                        // borderRadius: BorderRadius.circular(99),
+                        borderSide: BorderSide.none, // remove border if you want
+                      ),
+                      // focusedBorder: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

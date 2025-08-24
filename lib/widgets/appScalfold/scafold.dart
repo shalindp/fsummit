@@ -41,6 +41,7 @@ class AppScaffold extends StatelessWidget {
     _navService.activeRouter = AppRoute.values.firstWhere((c) => c.path == router.state.uri.path);
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: _getAppBar(context), body: body, backgroundColor: backgroundColor, bottomNavigationBar: _getBottomBar(context),);
   }
 }

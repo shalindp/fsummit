@@ -14,6 +14,7 @@ class UiService {
   double maxHeight = 0;
   EdgeInsets safeArea = EdgeInsets.zero;
   bool isKeyboardVisible = false;
+  bool wasKeyboardUp = false;
 
 
   // UiService(){
