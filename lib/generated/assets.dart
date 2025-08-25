@@ -6,12 +6,13 @@ class Assets {
   static const String appScalfoldScafold = 'lib/widgets/appScalfold/scafold.dart';
   static const String bottomNavBarBottomNavBar = 'lib/widgets/bottomNavBar/bottom-nav-bar.dart';
   static const String componentsNavBarItem = 'lib/widgets/bottomNavBar/components/nav-bar-item.dart';
+  static const String constantsAnimationConstants = 'lib/constants/animationConstants.dart';
+  static const String constantsIconConstants = 'lib/constants/iconConstants.dart';
   static const String conversationsChatPage = 'lib/screens/core/conversations/chat-page.dart';
   static const String conversationsConversationsPage = 'lib/screens/core/conversations/conversations-page.dart';
   static const String coreLayout = 'lib/screens/core/_layout.dart';
   static const String customPaintsBaseIcon = 'lib/widgets/customPaints/base-icon.dart';
   static const String customPaintsChatIcon = 'lib/widgets/customPaints/chat-icon.dart';
-  static const String customPaintsConstants = 'lib/widgets/customPaints/constants.dart';
   static const String customPaintsDiscoverIcon = 'lib/widgets/customPaints/discover-icon.dart';
   static const String customPaintsLeftChevron = 'lib/widgets/customPaints/leftChevron.dart';
   static const String customPaintsMatchIcon = 'lib/widgets/customPaints/match-icon.dart';

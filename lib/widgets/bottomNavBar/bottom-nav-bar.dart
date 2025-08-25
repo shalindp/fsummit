@@ -4,7 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fsummit/naviagtion/router-map.dart';
 import 'package:fsummit/theme/theme.dart';
 import 'package:fsummit/widgets/customPaints/chat-icon.dart';
-import 'package:fsummit/widgets/customPaints/constants.dart';
+import 'package:fsummit/constants/iconConstants.dart';
 import 'package:fsummit/widgets/customPaints/match-icon.dart';
 import 'package:fsummit/widgets/customPaints/profile-icon.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +14,8 @@ import '../customPaints/discover-icon.dart';
 part 'components/nav-bar-item.dart';
 
 class AppBottomNavBar extends StatelessWidget {
+  static const height = 56.0;
+
   final void Function(int index) _onTap;
 
   const AppBottomNavBar({super.key, required void Function(int index) onTap}) : _onTap = onTap;
@@ -33,7 +35,7 @@ class AppBottomNavBar extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(bottom: bottomInset),
       child: SizedBox(
-        height: 56,
+        height: height,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fsummit/naviagtion/router-map.dart';
 import 'package:fsummit/theme/theme.dart';
-import 'package:fsummit/widgets/customPaints/constants.dart';
+import 'package:fsummit/constants/iconConstants.dart';
 import 'package:fsummit/widgets/customPaints/leftChevron.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -11,11 +11,11 @@ import 'package:keyboard_height_plugin/keyboard_height_plugin.dart';
 import 'package:signals/signals_flutter.dart';
 
 import '../../../api/apiTypes.dart';
+import '../../../constants/animationConstants.dart';
 import '../../../services/navigationService.dart';
 import '../../../services/uiService.dart';
 
 class ChatPage extends StatefulWidget {
-
   const ChatPage({super.key});
 
   @override
@@ -50,9 +50,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme
-          .of(context)
-          .col60,
+      color: AppTheme.of(context).col60,
       child: Padding(
         padding: EdgeInsets.only(),
         child: Column(
@@ -74,13 +72,10 @@ class _ChatHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double topPadding = MediaQuery
-        .of(context)
-        .padding
-        .top;
+    final double topPadding = MediaQuery.of(context).padding.top;
 
     return Container(
-      padding: EdgeInsets.only(top: topPadding, right: 16),
+      padding: EdgeInsets.only(top: topPadding, right: AppTheme.s4),
       height: preferredSize.height + topPadding,
       child: Row(
         children: [
@@ -94,14 +89,12 @@ class _ChatHeader extends StatelessWidget implements PreferredSizeWidget {
             child: Container(
               color: Colors.transparent,
               height: height,
-              padding: const EdgeInsets.only(right: 16),
+              padding: const EdgeInsets.only(right: AppTheme.s4),
               child: Align(
                 alignment: Alignment.center,
                 child: CustomPaint(
                   size: AppIconSize.md.size,
-                  painter: LeftChevronIcon(color: AppTheme
-                      .of(context)
-                      .col30),
+                  painter: LeftChevronIcon(color: AppTheme.of(context).col30),
                 ),
               ),
             ),
@@ -146,10 +139,9 @@ class _Conversation extends StatelessWidget {
     required UiService uiService,
     required ScrollController scrollController,
     required FlutterSignal<double> keyboardHeightSignal,
-  })
-      : _uiService = uiService,
-        _scrollController = scrollController,
-        _keyboardHeightSignal = keyboardHeightSignal;
+  }) : _uiService = uiService,
+       _scrollController = scrollController,
+       _keyboardHeightSignal = keyboardHeightSignal;
 
   @override
   Widget build(BuildContext context) {
@@ -159,15 +151,15 @@ class _Conversation extends StatelessWidget {
     }
 
     return AnimatedSize(
-      duration: _uiService.wasKeyboardUp ? 300.milliseconds : 150.milliseconds,
-      curve: _uiService.wasKeyboardUp ? Curves.easeOutCubic : Curves.easeIn,
+      duration: _uiService.wasKeyboardUp ? 300.milliseconds : 250.milliseconds,
+      curve: _uiService.wasKeyboardUp ? Curves.easeOutCubic : AppAnimation.iosCurve,
       onEnd: () {
         _uiService.wasKeyboardUp = _keyboardHeightSignal.peek() > 0;
       },
       child: SizedBox(
         height: _keyboardHeightSignal.watch(context) > 0 ? maxHeight - _keyboardHeightSignal.peek() : maxHeight,
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: EdgeInsets.symmetric(vertical: AppTheme.s4),
           controller: _scrollController,
           itemCount: MockData.conv1Messages.length,
           reverse: true,
@@ -196,9 +188,7 @@ class _MessageBubble extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: isMe ? AppTheme
-            .of(context)
-            .col10 : Colors.grey[900], borderRadius: BorderRadius.circular(18)),
+        decoration: BoxDecoration(color: isMe ? AppTheme.of(context).col10 : Colors.grey[900], borderRadius: BorderRadius.circular(18)),
         child: Text(message.content.trim(), style: TextStyle(fontSize: 16, color: isMe ? Colors.white : Colors.white)),
       ),
     );
@@ -209,26 +199,28 @@ class _BottomBar extends StatelessWidget {
   final FocusNode _focusNode;
 
   static const height = 56.0;
+  static const innerHeight = 38.0;
 
   const _BottomBar({super.key, required FocusNode focusNode}) : _focusNode = focusNode;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Padding(
+      padding: EdgeInsets.only(top: 10),
       child: Padding(
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.symmetric(horizontal: AppTheme.s4),
         child: Row(
+          spacing: 16,
           children: [
-            Align(
-              alignment: AlignmentGeometry.topCenter,
+            Expanded(
+              child: Container(color: Colors.green, height: innerHeight),
+            ),
+            Expanded(
+              flex: 3,
               child: Container(
-                height: 38,
-                width: 260,
+                height: innerHeight,
                 padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(99),
-                    color: Color(0xFF0C0C0C)
-                ),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(99), color: Color(0xFF0C0C0C)),
                 child: Align(
                   alignment: AlignmentGeometry.center,
                   child: TextField(
@@ -248,6 +240,7 @@ class _BottomBar extends StatelessWidget {
                 ),
               ),
             ),
+            Container(color: Colors.purpleAccent, height: 38, width: 38),
           ],
         ),
       ),

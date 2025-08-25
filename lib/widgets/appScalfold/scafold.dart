@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fsummit/naviagtion/router-map.dart';
 import 'package:fsummit/services/navigationService.dart';
 import 'package:fsummit/services/uiService.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:signals/signals_flutter.dart';
+
+import '../bottomNavBar/bottom-nav-bar.dart';
 
 final appBarWhitelist = [AppRoute.chat, AppRoute.conversations];
 final bottomBarWhitelist = [AppRoute.chat];
@@ -15,16 +17,20 @@ class AppScaffold extends StatefulWidget {
   final Widget? bottomNavigationBar;
   final Color? backgroundColor;
 
-  final _uiService = GetIt.I<UiService>();
-  final _navService = GetIt.I<NavigationService>();
-
-  AppScaffold({super.key, this.body, this.bottomNavigationBar, this.backgroundColor});
+  const AppScaffold({super.key, this.body, this.bottomNavigationBar, this.backgroundColor});
 
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
 }
 
-class _AppScaffoldState extends State<AppScaffold> {
+class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStateMixin {
+  final _uiService = GetIt.I<UiService>();
+  final _navService = GetIt.I<NavigationService>();
+
+  late final AnimationController _animationController = AnimationController(vsync: this, duration: 0.milliseconds);
+
+  final showBar = signal(true);
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +44,14 @@ class _AppScaffoldState extends State<AppScaffold> {
   @override
   void didUpdateWidget(covariant AppScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
-    widget._navService.setRoute(context);
+    _navService.setRoute(context);
+
+    if (_navService.activePathSignal.peek() == AppRoute.chat) {
+      _animationController.forward().whenComplete(() => showBar.set(false));
+    }else if(_animationController.isCompleted){
+      showBar.set(true);
+      _animationController.reverse();
+    }
   }
 
   @override
@@ -47,7 +60,12 @@ class _AppScaffoldState extends State<AppScaffold> {
       resizeToAvoidBottomInset: false,
       body: widget.body,
       backgroundColor: widget.backgroundColor,
-      bottomNavigationBar: widget._uiService.appBarVisibilityComputedSignal.watch(context) ? widget.bottomNavigationBar : null,
+      bottomNavigationBar: showBar.watch(context)
+          ? widget.bottomNavigationBar!
+                .animate(controller: _animationController, autoPlay: false)
+                .moveY(begin: 0, end: AppBottomNavBar.height + _uiService.safeArea.bottom, duration: 200.milliseconds, curve: Curves.easeInSine)
+                .fadeOut()
+          : null,
     );
   }
 }
@@ -55,3 +73,5 @@ class _AppScaffoldState extends State<AppScaffold> {
 abstract class AppBarProvider {
   PreferredSizeWidget? buildAppBar(BuildContext context);
 }
+
+class X extends Curve {}
