@@ -24,9 +24,12 @@ class Assets {
   static const String naviagtionRouterMap = 'lib/naviagtion/router-map.dart';
   static const String profileSettingsPage = 'lib/screens/core/profile/settings-page.dart';
   static const String screensAuthPage = 'lib/screens/auth-page.dart';
+  static const String servicesApiQueryService = 'lib/services/ApiQueryService.dart';
+  static const String servicesApiService = 'lib/services/ApiService.dart';
   static const String servicesAppModule = 'lib/services/appModule.dart';
   static const String servicesNavigationService = 'lib/services/navigationService.dart';
   static const String servicesUiService = 'lib/services/uiService.dart';
+  static const String servicesWsService = 'lib/services/wsService.dart';
   static const String themeTheme = 'lib/theme/theme.dart';
   static const String widgetsTest = 'lib/widgets/test.dart';
 

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:fsummit/services/wsService.dart';
 import 'package:fsummit/widgets/bottomNavBar/bottom-nav-bar.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/src/route.dart';
 
+import '../../services/uiService.dart';
 import '../../theme/theme.dart';
 import '../../widgets/appScalfold/scafold.dart';
 
 class CoreTabLayout extends StatelessWidget {
   final StatefulNavigationShell _navigationShell;
+  final _wsService = GetIt.I<WsService>();
 
-  const CoreTabLayout(this._navigationShell, {super.key});
+  CoreTabLayout(this._navigationShell, {super.key}){
+  }
 
   @override
   Widget build(BuildContext context) {

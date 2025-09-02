@@ -39,7 +39,7 @@ final GoRouter appRouterMap = GoRouter(
             GoRoute(
               path: AppRoute.discover.path,
               builder: (context, state) {
-                return const DiscoverPage();
+                return DiscoverPage();
               },
             ),
           ],
