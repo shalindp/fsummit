@@ -16,5 +16,5 @@ class AuthApiQueries {
       _userApi.userSignUpPost(signUpRequestBody: body);
 
   ApiQueryReturnType<AuthResponseResultResponse, SignInRequestBody> get signInQuery => _useApiQuery("sign-in", signInAsync);
-  get useSignUp => _useApiQuery<AuthResponseResultResponse, SignUpRequestBody>("sign-up", signUpAsync);
+  ApiQueryReturnType<AuthResponseResultResponse, SignUpRequestBody> get useSignUp => _useApiQuery("sign-up", signUpAsync);
 }

@@ -1,21 +1,20 @@
 part of 'ApiService.dart';
 
-typedef ApiQueryType<TData> = ({
-  FlutterSignal<bool> isFetching,
-  FlutterSignal<bool> isLoading,
-  FlutterSignal<String?> errorMessage,
-  FlutterSignal<TData?> data,
-});
-
 typedef ApiQueryInputMethod<TData, TRequestBody> = Future<Response<TData>> Function(TRequestBody body);
 
 typedef ApiQueryReturnType<TData, TRequestBody> = ({
-  FlutterSignal<bool> isFetching,
-  FlutterSignal<bool> isLoading,
-  FlutterSignal<String?> errorMessage,
-  FlutterSignal<TData?> data,
-  Future<TData?> Function(TRequestBody requestBody) fetchAsync,
+  FlutterSignal<bool> isFetchingSignal,
+  FlutterSignal<bool> isLoadingSignal,
+  FlutterSignal<String?> errorMessageSignal,
+  FlutterSignal<TData?> dataSignal,
+  Future<QueryResult<TData>> Function(TRequestBody requestBody) fetchAsync,
 });
+
+class QueryResult<TData> {
+  bool isSuccess = false;
+  String? errorMessage;
+  TData? data;
+}
 
 class _QueryBase {
   final Map<String, dynamic> queryStore = {};
@@ -26,41 +25,40 @@ class _QueryBase {
       return exitingInStore as ApiQueryReturnType<TData, TRequestBody>;
     }
 
-    var isFetching = signal(false);
-    var isLoading = signal(false);
-    var errorMessage = signal<String?>(null);
-    var data = signal<TData?>(null);
+    var isFetchingSignal = signal(false);
+    var isLoadingSignal = signal(false);
+    var errorMessageSignal = signal<String?>(null);
+    var dataSignal = signal<TData?>(null);
 
-    Future<TData?> fetchAsync(TRequestBody requestBody) async {
+    Future<QueryResult<TData>> fetchAsync(TRequestBody requestBody) async {
+      var result = QueryResult<TData>();
+
       try {
         if (exitingInStore == null) {
-          isLoading.set(true);
+          isLoadingSignal.set(true);
         }
-        isFetching.set(true);
-        var result = (await inputMethod(requestBody)).data;
-        data.set(result);
-        return result;
+        isFetchingSignal.set(true);
+        var apiResponse = (await inputMethod(requestBody)).data;
+        dataSignal.set(apiResponse);
+        result.data = apiResponse;
+        result.isSuccess = true;
       } on DioException catch (e) {
         if (e.response?.data != null) {
-          errorMessage.set(e.response!.data);
+          errorMessageSignal.set(e.response!.data);
+          result.errorMessage = e.response!.data;
         }
+      } finally {
+        isLoadingSignal.set(false);
+        isFetchingSignal.set(false);
       }
-      catch(p){
-        var ll = p;
-        var oo = ll;
-      }
-      finally {
-        isLoading.set(false);
-        isFetching.set(false);
-      }
-      return null;
+      return result;
     }
 
     ApiQueryReturnType<TData, TRequestBody> returnData = (
-      isFetching: isFetching,
-      isLoading: isLoading,
-      errorMessage: errorMessage,
-      data: data,
+      isFetchingSignal: isFetchingSignal,
+      isLoadingSignal: isLoadingSignal,
+      errorMessageSignal: errorMessageSignal,
+      dataSignal: dataSignal,
       fetchAsync: fetchAsync,
     );
 
