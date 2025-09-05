@@ -15,10 +15,9 @@ part 'SignalR.dart';
 class ApiService {
   AuthResponse? _authState;
   Map<String, dynamic> headers = {};
-  Openapi? openApi;
   _SignalR? _signalR;
 
-  UserApi get userApi => openApi!.getUserApi();
+  late Openapi openApi;
   late AuthQueries authQueries;
 
   ApiService() {
@@ -26,8 +25,6 @@ class ApiService {
     var queryBase = ApiQuery(this);
     authQueries = AuthQueries(this, queryBase);
   }
-
-  get authQuires => authQueries;
 
   set authState(AuthResponse? value) {
     _authState = value;

@@ -30,6 +30,7 @@ class DiscoverPage extends StatelessWidget {
   void onTap2() async {
     var x = await secureQuery.fetchAsync({});
     var p = x;
+    print("object ${p}");
     // var result = await x.fetchAsync(body);
     // _apiService.authState = result!.data;
     // print(result!.data!.refreshToken);

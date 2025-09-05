@@ -53,7 +53,8 @@ class ApiQuery {
             c.refreshToken = _apiService._authState!.refreshToken;
           });
 
-          await _apiService.userApi.userSilentRefreshPost(silentRefreshRequestBody: body, headers: _apiService.headers);
+          var refreshResult = await _apiService.openApi.getUserApi().userSilentRefreshPost(silentRefreshRequestBody: body, headers: _apiService.headers);
+          _apiService.authState = refreshResult.data!.data;
         }
 
         var apiResponse = (await inputMethod(requestBody)).data;
