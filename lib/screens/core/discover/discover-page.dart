@@ -44,7 +44,7 @@ class DiscoverPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 100),
         child: Column(
           children: [
-            Text(signInQuery.errorMessageSignal.watch(context) ?? "No error"),
+            Text(signInQuery.dataSignal.watch(context)?.toString() ?? "No data"),
             Container(
               width: 100,
               height: 50,

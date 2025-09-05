@@ -59,7 +59,7 @@ class _SignalR {
     await hubConnection.invoke(
       "InitialiseConnection",
       args: [
-        {"AppUserId": myUserId},
+        // {"AppUserId": myUserId},
       ],
     );
 

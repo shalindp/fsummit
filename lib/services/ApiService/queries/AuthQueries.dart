@@ -9,14 +9,11 @@ class AuthQueries {
 
   AuthQueries(this._apiService, this._apiQuery);
 
-  Future<Response<AuthResponseResultResponse>> signInAsync(SignInRequestBody body) => _apiService.openApi!.getUserApi().userSignInPost(signInRequestBody: body);
+  Future<Response<AuthResponseResultResponse>> signInAsync(SignInRequestBody body) => _apiService.openApi.getUserApi().userSignInPost(signInRequestBody: body);
 
-  Future<Response<AuthResponseResultResponse>> signUpAsync(SignUpRequestBody body) => _apiService.openApi!.getUserApi().userSignUpPost(signUpRequestBody: body);
+  Future<Response<AuthResponseResultResponse>> signUpAsync(SignUpRequestBody body) => _apiService.openApi.getUserApi().userSignUpPost(signUpRequestBody: body);
 
-  Future<Response<void>> secureAsync(Object body) {
-    print("@>>>> INSIDE ${_apiService.headers}");
-    return _apiService.openApi!.getUserApi().userSecureGet(headers: _apiService.headers);
-  }
+  Future<Response<void>> secureAsync(Object body) => _apiService.openApi.getUserApi().userSecureGet(headers: _apiService.headers);
 
   ApiQueryReturnType<AuthResponseResultResponse, SignInRequestBody> get signInQuery => _apiQuery.useApiQuery("sign-in", signInAsync, isAnonymous: true);
 

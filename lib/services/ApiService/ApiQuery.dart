@@ -41,7 +41,7 @@ class ApiQuery {
     Future<QueryResult<TData>> fetchAsync(TRequestBody requestBody) async {
       var result = QueryResult<TData>();
 
-      print("useQuery ${cacheKey}");
+      print("invoke api ${cacheKey} withAuthToken :${_apiService._authState?.token != null ? true : false}");
       try {
         if (exitingInStore == null) {
           isLoadingSignal.set(true);
@@ -55,6 +55,7 @@ class ApiQuery {
 
           var refreshResult = await _apiService.openApi.getUserApi().userSilentRefreshPost(silentRefreshRequestBody: body, headers: _apiService.headers);
           _apiService.authState = refreshResult.data!.data;
+          print("Silent refresh done");
         }
 
         var apiResponse = (await inputMethod(requestBody)).data;
