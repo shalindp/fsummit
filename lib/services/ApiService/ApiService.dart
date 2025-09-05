@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fsummit/services/ApiService/queries/AuthQuery.dart';
+import 'package:fsummit/services/ApiService/queries/AuthQueries.dart';
 import 'package:openapi/openapi.dart';
 import 'package:signals/signals_flutter.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -8,24 +8,23 @@ import 'package:signalr_netcore/msgpack_hub_protocol.dart';
 import 'package:signalr_netcore/signalr_client.dart';
 import 'package:logging/logging.dart';
 
-part 'Query.dart';
+part 'ApiQuery.dart';
 
 part 'SignalR.dart';
 
 class ApiService {
   AuthResponse? _authState;
-  late Map<String, dynamic> headers = {};
-
-  late QueryBase _queryBase;
+  Map<String, dynamic> headers = {};
+  Openapi? openApi;
   _SignalR? _signalR;
 
-  late AuthApiQueries authQueries;
+  UserApi get userApi => openApi!.getUserApi();
+  late AuthQueries authQueries;
 
   ApiService() {
-    var openApi = Openapi(basePathOverride: "http://localhost:5253");
-    _queryBase = QueryBase(openApi, this);
-
-    authQueries = AuthApiQueries(_queryBase, this, openApi.getUserApi());
+    openApi = Openapi(basePathOverride: "http://localhost:5253");
+    var queryBase = ApiQuery(this);
+    authQueries = AuthQueries(this, queryBase);
   }
 
   get authQuires => authQueries;
@@ -39,6 +38,4 @@ class ApiService {
       _SignalR(_authState!);
     }
   }
-
-  get authState => _authState;
 }

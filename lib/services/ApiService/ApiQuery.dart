@@ -16,15 +16,12 @@ class QueryResult<TData> {
   TData? data;
 }
 
-class QueryBase {
-  final Openapi openApi;
+class ApiQuery {
   final ApiService _apiService;
-  // final AuthResponse? _authState;
-  // final Map<String, dynamic> headers;
 
   final Map<String, dynamic> queryStore = {};
 
-  QueryBase(this.openApi, this._apiService);
+  ApiQuery(this._apiService);
 
   ApiQueryReturnType<TData, TRequestBody> useApiQuery<TData, TRequestBody>(
     String cacheKey,
@@ -44,7 +41,7 @@ class QueryBase {
     Future<QueryResult<TData>> fetchAsync(TRequestBody requestBody) async {
       var result = QueryResult<TData>();
 
-      print("fetching ${cacheKey} ${_apiService._authState?.token}");
+      print("useQuery ${cacheKey}");
       try {
         if (exitingInStore == null) {
           isLoadingSignal.set(true);
@@ -56,7 +53,7 @@ class QueryBase {
             c.refreshToken = _apiService._authState!.refreshToken;
           });
 
-          await openApi.getUserApi().userSilentRefreshPost(silentRefreshRequestBody: body, headers: _apiService.headers);
+          await _apiService.userApi.userSilentRefreshPost(silentRefreshRequestBody: body, headers: _apiService.headers);
         }
 
         var apiResponse = (await inputMethod(requestBody)).data;

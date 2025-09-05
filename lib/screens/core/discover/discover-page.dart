@@ -22,7 +22,6 @@ class DiscoverPage extends StatelessWidget {
       c.password = "pswd";
     });
 
-    var oo = _apiService.authState;
     var x = await signInQuery.fetchAsync(body);
     _apiService.authState = x.data!.data;
     var k = x;

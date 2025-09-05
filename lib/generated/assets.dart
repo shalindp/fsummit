@@ -4,7 +4,7 @@ class Assets {
 
   static const String apiApiTypes = 'lib/api/apiTypes.dart';
   static const String apiServiceApiService = 'lib/services/ApiService/ApiService.dart';
-  static const String apiServiceQuery = 'lib/services/ApiService/Query.dart';
+  static const String apiServiceQuery = 'lib/services/ApiService/ApiQuery.dart';
   static const String apiServiceWsService = 'lib/services/ApiService/SignalR.dart';
   static const String appScalfoldScafold = 'lib/widgets/appScalfold/scafold.dart';
   static const String bottomNavBarBottomNavBar = 'lib/widgets/bottomNavBar/bottom-nav-bar.dart';
@@ -26,7 +26,7 @@ class Assets {
   static const String matchMatchPage = 'lib/screens/core/match/match-page.dart';
   static const String naviagtionRouterMap = 'lib/naviagtion/router-map.dart';
   static const String profileSettingsPage = 'lib/screens/core/profile/settings-page.dart';
-  static const String queriesAuthQuery = 'lib/services/ApiService/queries/AuthQuery.dart';
+  static const String queriesAuthQuery = 'lib/services/ApiService/queries/AuthQueries.dart';
   static const String screensAuthPage = 'lib/screens/auth-page.dart';
   static const String servicesAppModule = 'lib/services/appModule.dart';
   static const String servicesNavigationService = 'lib/services/navigationService.dart';
