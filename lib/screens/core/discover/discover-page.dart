@@ -9,7 +9,8 @@ import '../../../theme/theme.dart';
 class DiscoverPage extends StatelessWidget {
   final _apiService = GetIt.I<ApiService>();
 
-  late var signInQuery = _apiService.auth.signInQuery;
+  late var signInQuery = _apiService.authQueries.signInQuery;
+  late var secureQuery = _apiService.authQueries.secure;
 
   // late ApiQueryReturnType<AuthResponseResultResponse, SilentRefreshRequestBody> x = _apiService.useQuery("Hello", _apiService.authState.silentRefreshAsync);
 
@@ -17,21 +18,19 @@ class DiscoverPage extends StatelessWidget {
 
   void onTap() async {
     var body = SignInRequestBody((c) {
-      c.email = "dylan1@";
+      c.email = "dylan@";
       c.password = "pswd";
     });
 
+    var oo = _apiService.authState;
     var x = await signInQuery.fetchAsync(body);
+    _apiService.authState = x.data!.data;
     var k = x;
   }
 
   void onTap2() async {
-    // print("@> WTF ${_apiService.authState?.refreshToken}");
-    // var body = SilentRefreshRequestBody((c) {
-    //   c.id = _apiService.authState!.id;
-    //   c.refreshToken = _apiService.authState!.refreshToken;
-    // });
-    //
+    var x = await secureQuery.fetchAsync({});
+    var p = x;
     // var result = await x.fetchAsync(body);
     // _apiService.authState = result!.data;
     // print(result!.data!.refreshToken);

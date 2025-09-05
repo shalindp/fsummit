@@ -5,6 +5,7 @@ class Assets {
   static const String apiApiTypes = 'lib/api/apiTypes.dart';
   static const String apiServiceApiService = 'lib/services/ApiService/ApiService.dart';
   static const String apiServiceQuery = 'lib/services/ApiService/Query.dart';
+  static const String apiServiceWsService = 'lib/services/ApiService/SignalR.dart';
   static const String appScalfoldScafold = 'lib/widgets/appScalfold/scafold.dart';
   static const String bottomNavBarBottomNavBar = 'lib/widgets/bottomNavBar/bottom-nav-bar.dart';
   static const String componentsNavBarItem = 'lib/widgets/bottomNavBar/components/nav-bar-item.dart';
@@ -30,7 +31,6 @@ class Assets {
   static const String servicesAppModule = 'lib/services/appModule.dart';
   static const String servicesNavigationService = 'lib/services/navigationService.dart';
   static const String servicesUiService = 'lib/services/uiService.dart';
-  static const String servicesWsService = 'lib/services/wsService.dart';
   static const String themeTheme = 'lib/theme/theme.dart';
   static const String widgetsTest = 'lib/widgets/test.dart';
 

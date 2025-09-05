@@ -1,7 +1,4 @@
-import 'package:signalr_netcore/msgpack_hub_protocol.dart';
-import 'package:signalr_netcore/signalr_client.dart';
-import 'package:logging/logging.dart';
-import 'package:uuid/uuid.dart';
+part of 'ApiService.dart';
 
 class WSUserConnection {
   final String AppUserId;
@@ -9,13 +6,15 @@ class WSUserConnection {
   WSUserConnection(this.AppUserId);
 }
 
-class WsService {
-  WsService() {
+class _SignalR {
+  final AuthResponse _authState;
+
+  _SignalR(this._authState) {
     initSignalR();
   }
 
   Future<void> initSignalR() async {
-    Logger.root.level = Level.ALL; // defaults to Level.INFO
+    Logger.root.level = Level.OFF; // defaults to Level.INFO
     Logger.root.onRecord.listen((record) {
       print('${record.level.name}: ${record.time}: ${record.message}');
     });
@@ -23,9 +22,15 @@ class WsService {
     final serverUrl = "http://localhost:5253/ws";
     print("init ws ${serverUrl}");
 
+    final defaultHeaders = MessageHeaders();
+    defaultHeaders.setHeaderValue("Authorization", "Bearer ${_authState.token}");
+
     // Creates the connection by using the HubConnectionBuilder.
     final hubConnection = HubConnectionBuilder()
-        .withUrl(serverUrl)
+        .withUrl(
+          serverUrl,
+          options: HttpConnectionOptions(headers: defaultHeaders, accessTokenFactory: () async => _authState.token),
+        )
         .withHubProtocol(MessagePackHubProtocol())
         .withAutomaticReconnect()
         .configureLogging(Logger.root)
@@ -49,16 +54,12 @@ class WsService {
     String myUserId = "9f2d6b2f-9f94-4b7c-a08f-2c441d7cb1b4"; // example GUID
     var x = WSUserConnection(myUserId);
 
-    var xx =   {
-      "AppUserId": myUserId
-    };
+    var xx = {"AppUserId": myUserId};
 
     await hubConnection.invoke(
       "InitialiseConnection",
       args: [
-        {
-          "AppUserId": myUserId
-        }
+        {"AppUserId": myUserId},
       ],
     );
 

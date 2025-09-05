@@ -16,10 +16,21 @@ class QueryResult<TData> {
   TData? data;
 }
 
-class _QueryBase {
+class QueryBase {
+  final Openapi openApi;
+  final ApiService _apiService;
+  // final AuthResponse? _authState;
+  // final Map<String, dynamic> headers;
+
   final Map<String, dynamic> queryStore = {};
 
-  ApiQueryReturnType<TData, TRequestBody> useApiQuery<TData, TRequestBody>(String cacheKey, ApiQueryInputMethod<TData, TRequestBody> inputMethod) {
+  QueryBase(this.openApi, this._apiService);
+
+  ApiQueryReturnType<TData, TRequestBody> useApiQuery<TData, TRequestBody>(
+    String cacheKey,
+    ApiQueryInputMethod<TData, TRequestBody> inputMethod, {
+    bool isAnonymous = false,
+  }) {
     var exitingInStore = queryStore[cacheKey];
     if (exitingInStore != null) {
       return exitingInStore as ApiQueryReturnType<TData, TRequestBody>;
@@ -33,11 +44,21 @@ class _QueryBase {
     Future<QueryResult<TData>> fetchAsync(TRequestBody requestBody) async {
       var result = QueryResult<TData>();
 
+      print("fetching ${cacheKey} ${_apiService._authState?.token}");
       try {
         if (exitingInStore == null) {
           isLoadingSignal.set(true);
         }
         isFetchingSignal.set(true);
+
+        if (!isAnonymous && JwtDecoder.isExpired(_apiService._authState!.token)) {
+          var body = SilentRefreshRequestBody((c) {
+            c.refreshToken = _apiService._authState!.refreshToken;
+          });
+
+          await openApi.getUserApi().userSilentRefreshPost(silentRefreshRequestBody: body, headers: _apiService.headers);
+        }
+
         var apiResponse = (await inputMethod(requestBody)).data;
         dataSignal.set(apiResponse);
         result.data = apiResponse;
@@ -47,6 +68,8 @@ class _QueryBase {
           errorMessageSignal.set(e.response!.data);
           result.errorMessage = e.response!.data;
         }
+      } catch (e) {
+        print(e);
       } finally {
         isLoadingSignal.set(false);
         isFetchingSignal.set(false);
