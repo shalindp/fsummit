@@ -1,12 +1,12 @@
 import 'package:fsummit/screens/auth-page.dart';
 import 'package:fsummit/screens/core/_layout.dart';
-import 'package:fsummit/screens/core/conversations/chat-page.dart';
-import 'package:fsummit/screens/core/profile/settings-page.dart';
+import 'package:fsummit/screens/core/conversations/chat/ChatPage.dart';
+import 'package:fsummit/screens/core/profile/SettingsPage.dart';
 import 'package:go_router/go_router.dart';
 
-import '../screens/core/conversations/conversations-page.dart';
-import '../screens/core/discover/discover-page.dart';
-import '../screens/core/match/match-page.dart';
+import '../screens/core/conversations/ConversationsPage.dart';
+import '../screens/core/discover/DiscoverPage.dart';
+import '../screens/core/match/MatchPage.dart';
 
 enum AppRoute {
   auth("/auth"),
@@ -59,7 +59,7 @@ final GoRouter appRouterMap = GoRouter(
             GoRoute(
               path: AppRoute.conversations.path,
               builder: (context, state) {
-                return const ConversationsPage();
+                return ConversationsPage();
               },
             ),
             GoRoute(

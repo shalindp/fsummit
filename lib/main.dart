@@ -6,7 +6,7 @@ import 'package:fsummit/services/navigationService.dart';
 import 'package:fsummit/services/uiService.dart';
 import 'package:fsummit/theme/theme.dart';
 import 'package:signals/signals.dart';
-import 'naviagtion/router-map.dart';
+import 'naviagtion/RouterMap.dart';
 
 void main() {
   SignalsObserver.instance = null;

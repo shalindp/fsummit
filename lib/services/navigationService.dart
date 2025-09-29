@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:fsummit/naviagtion/router-map.dart';
+import 'package:fsummit/naviagtion/RouterMap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals/signals_flutter.dart';
 

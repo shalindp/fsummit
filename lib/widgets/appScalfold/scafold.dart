@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:fsummit/naviagtion/router-map.dart';
+import 'package:fsummit/naviagtion/RouterMap.dart';
 import 'package:fsummit/services/navigationService.dart';
 import 'package:fsummit/services/uiService.dart';
 import 'package:get_it/get_it.dart';
 import 'package:signals/signals_flutter.dart';
 
-import '../bottomNavBar/bottom-nav-bar.dart';
+import '../bottomNavBar/BottomNavbar.dart';
 
 final appBarWhitelist = [AppRoute.chat, AppRoute.conversations];
 final bottomBarWhitelist = [AppRoute.chat];

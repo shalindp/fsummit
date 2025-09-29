@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fsummit/widgets/bottomNavBar/bottom-nav-bar.dart';
+import 'package:fsummit/widgets/bottomNavBar/BottomNavbar.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/src/route.dart';
 

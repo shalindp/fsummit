@@ -40,10 +40,11 @@ dependencies:
   get_it: ^8.2.0
   keyboard_height_plugin: ^0.1.5
   openapi:
-    path: /Volumes/MacOs Ext/Dev/fsmmit-api/Presentation/OpenApi/api_client
+    path: /Users/shalindperera/Documents/dev/fsummit-api/Presentation/OpenApi/api_client
   dio: '^5.7.0'
   signalr_netcore: ^1.4.3
   jwt_decoder: ^2.0.1
+  flutter_hooks: ^0.21.3+1
 
 dev_dependencies:
   flutter_test:

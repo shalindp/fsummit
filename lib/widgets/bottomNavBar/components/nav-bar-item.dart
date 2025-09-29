@@ -1,4 +1,4 @@
-part of '../bottom-nav-bar.dart';
+part of '../BottomNavbar.dart';
 
 class _navItem extends StatefulWidget {
   final bool _isActive;
