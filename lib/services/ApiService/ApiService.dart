@@ -21,7 +21,7 @@ class ApiService {
   late AuthQueries authQueries;
 
   ApiService() {
-    openApi = Openapi(basePathOverride: "http://localhost:5253");
+    openApi = Openapi(basePathOverride: "http://192.168.0.100:5253");
     var queryBase = ApiQuery(this);
     authQueries = AuthQueries(this, queryBase);
   }
