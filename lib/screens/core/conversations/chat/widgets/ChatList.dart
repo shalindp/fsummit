@@ -20,6 +20,7 @@ class _ChatList extends HookWidget {
         _uiService.safeArea.top -
         _ChatHeader.height -
         _ChatInput.height;
+
     if (_keyboardHeightSignal.peek() == 0) {
       maxHeight = maxHeight - _uiService.safeArea.bottom;
     }

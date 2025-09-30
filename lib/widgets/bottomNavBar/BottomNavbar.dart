@@ -41,28 +41,28 @@ class AppBottomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _navItem(
+            _NavItem(
               isActive: _isActive(AppRoute.discover, context),
               painterBuilder: DiscoverIcon.new,
               onTap: () {
                 _onTap(0);
               },
             ),
-            _navItem(
+            _NavItem(
               isActive: _isActive(AppRoute.match, context),
               painterBuilder: MatchIcon.new,
               onTap: () {
                 _onTap(1);
               },
             ),
-            _navItem(
+            _NavItem(
               isActive: _isActive(AppRoute.conversations, context),
               painterBuilder: ChatIcon.new,
               onTap: () {
                 _onTap(2);
               },
             ),
-            _navItem(
+            _NavItem(
               isActive: _isActive(AppRoute.profile, context),
               painterBuilder: ProfileIcon.new,
               onTap: () {

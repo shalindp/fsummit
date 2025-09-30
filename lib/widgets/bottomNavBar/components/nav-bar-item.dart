@@ -1,11 +1,11 @@
 part of '../BottomNavbar.dart';
 
-class _navItem extends HookWidget {
+class _NavItem extends HookWidget {
   final bool _isActive;
   final void Function() _onTap;
   final CustomPainter Function({Color? color, Listenable? repaint}) painterBuilder;
 
-  const _navItem(
+  const _NavItem(
       {super.key, required bool isActive, required void Function() onTap, required this.painterBuilder})
       : _isActive = isActive,
         _onTap = onTap;

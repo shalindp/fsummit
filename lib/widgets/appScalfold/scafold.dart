@@ -63,7 +63,7 @@ class _AppScaffoldState extends State<AppScaffold> with SingleTickerProviderStat
       bottomNavigationBar: showBar.watch(context)
           ? widget.bottomNavigationBar!
                 .animate(controller: _animationController, autoPlay: false)
-                .moveY(begin: 0, end: AppBottomNavBar.height + _uiService.safeArea.bottom, duration: 200.milliseconds, curve: Curves.easeInSine)
+                .moveY(begin: 0, end: AppBottomNavBar.height + _uiService.safeArea.bottom, duration: 0.milliseconds, curve: Curves.easeInSine)
                 .fadeOut()
           : null,
     );

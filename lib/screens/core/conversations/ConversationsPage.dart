@@ -14,8 +14,8 @@ class ConversationsPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      _uiService.appBottomNavBarVisibleSignal.set(true);
-      print("@> DO");
+      // _uiService.appBottomNavBarVisibleSignal.set(true);
+      // print("@> DO");
     }, const []);
 
     return Container(

@@ -21,7 +21,7 @@ part './widgets/ChatInput.dart';
 
 class ChatPage extends HookWidget {
   final _uiService = GetIt.I<UiService>();
-  // final _keyboardHeightPlugin = KeyboardHeightPlugin();
+  final _keyboardHeightPlugin = KeyboardHeightPlugin();
   final _focusNode = FocusNode();
   final _scrollController = ScrollController();
   final _keyboardHeightSignal = signal<double>(0);
@@ -31,9 +31,9 @@ class ChatPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      // _keyboardHeightPlugin.onKeyboardHeightChanged((double height) {
-        // _keyboardHeightSignal.set(height);
-      // });
+      _keyboardHeightPlugin.onKeyboardHeightChanged((double height) {
+        _keyboardHeightSignal.set(height);
+      });
     }, []);
 
     return Container(
